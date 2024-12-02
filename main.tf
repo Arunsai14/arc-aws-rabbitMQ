@@ -25,7 +25,7 @@ module "terraform-aws-arc-tags" {
 
 ########### Security Group for rabbitMQ ######### 
 resource "aws_security_group" "this" {
-  name        = var.security_group_name
+  name        = "rabbit-sg"
   description = "Security group for the rabbitMQ"
   vpc_id      = var.vpc_id
 

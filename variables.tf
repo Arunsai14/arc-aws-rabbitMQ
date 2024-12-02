@@ -33,11 +33,6 @@ variable "host_instance_type" {
   default     = "mq.t3.micro"
 }
 
-variable "security_group_name" {
-  description = "List of security group IDs for the RabbitMQ broker."
-  type        = string
-}
-
 variable "subnet_ids" {
   description = "List of subnet IDs for the RabbitMQ broker."
   type        = list(string)
