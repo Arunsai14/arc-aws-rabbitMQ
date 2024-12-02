@@ -63,6 +63,7 @@ resource "aws_mq_broker" "rabbitmq" {
   deployment_mode    = var.deployment_mode
   storage_type       = var.storage_type
   apply_immediately  = var.apply_immediately
+  auto_minor_version_upgrade = true
 
   user {
     username = var.user_username

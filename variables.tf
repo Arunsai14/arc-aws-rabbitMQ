@@ -60,7 +60,7 @@ variable "storage_type" {
 variable "apply_immediately" {
   description = "Whether changes should be applied immediately."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "user_username" {
