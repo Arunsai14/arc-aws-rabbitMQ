@@ -1,3 +1,21 @@
+variable "region" {
+  description = "AWS region"
+  type        = string
+  default     = "us-east-1"  # Change as needed
+}
+
+variable "environment" {
+  type        = string
+  description = "Name of the environment, i.e. dev, stage, prod"
+  default     = "dev"
+}
+
+variable "project_name" {
+  type        = string
+  default     = "sourcefuse"
+  description = "Project name"
+}
+
 variable "broker_name" {
   description = "Name of the RabbitMQ broker."
   type        = string
@@ -15,7 +33,7 @@ variable "host_instance_type" {
   default     = "mq.t3.micro"
 }
 
-variable "security_groups" {
+variable "security_group_name" {
   description = "List of security group IDs for the RabbitMQ broker."
   type        = list(string)
   default     = []
@@ -101,6 +119,28 @@ variable "vpc_id" {
   description = "The VPC ID for the VPC endpoint."
   type        = string
   default   = null
+}
+
+variable "ingress_rules" {
+  description = "A list of ingress rules for the security group."
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+  default     = []
+}
+
+variable "egress_rules" {
+  description = "A list of egress rules for the security group."
+  type = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+  default     = []
 }
 
 

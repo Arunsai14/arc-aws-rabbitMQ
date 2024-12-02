@@ -8,7 +8,9 @@ terraform {
     }
   }
 }
-
+provider "aws" {
+  region = var.region
+}
 module "terraform-aws-arc-tags" {
   source      = "sourcefuse/arc-tags/aws"
   version     = "1.2.5"
@@ -17,13 +19,13 @@ module "terraform-aws-arc-tags" {
 
   extra_tags = {
     MonoRepo     = "True"
-    MonoRepoPath = "opensearch"
+    MonoRepoPath = "aws rabbitMQ"
   }
 }
 
 ########### Security Group for serverless ######### 
 resource "aws_security_group" "this" {
-  name        = var.vpc_security_group_name
+  name        = var.security_group_name
   description = "Security group for the rabbitMQ"
   vpc_id      = var.vpc_id
 
