@@ -51,7 +51,7 @@ resource "aws_security_group" "this" {
   tags = merge(
     module.terraform-aws-arc-tags.tags
   )
-
+}
 resource "aws_mq_broker" "rabbitmq" {
   broker_name        = var.broker_name
   engine_type        = "RabbitMQ"
