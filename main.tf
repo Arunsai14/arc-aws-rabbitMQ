@@ -23,7 +23,7 @@ module "terraform-aws-arc-tags" {
   }
 }
 
-########### Security Group for serverless ######### 
+########### Security Group for rabbitMQ ######### 
 resource "aws_security_group" "this" {
   name        = var.security_group_name
   description = "Security group for the rabbitMQ"
@@ -48,8 +48,9 @@ resource "aws_security_group" "this" {
       cidr_blocks = egress.value.cidr_blocks
     }
   }
-  tags = var.tags
-}
+  tags = merge(
+    module.terraform-aws-arc-tags.tags
+  )
 
 resource "aws_mq_broker" "rabbitmq" {
   broker_name        = var.broker_name
