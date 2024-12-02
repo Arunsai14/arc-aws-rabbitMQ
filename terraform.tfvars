@@ -1,0 +1,10 @@
+  region               = "us-east-2"
+vpc_id               = "vpc-024aff0fdd1a1d6fe"
+  broker_name       = "example-rabbitmq"
+  engine_version    = "3.13"
+  host_instance_type = "mq.t3.micro"
+  security_groups   = ["sg-0123456789abcdef"]
+  subnet_ids        = ["subnet-0559fb2ec2711b6ae", "subnet-0ecaddef65763a35f"]
+  user_username     = "exampleuser"
+  user_password     = "example@123password"
+  enable_logging    = true
