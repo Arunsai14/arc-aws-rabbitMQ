@@ -35,8 +35,7 @@ variable "host_instance_type" {
 
 variable "security_group_name" {
   description = "List of security group IDs for the RabbitMQ broker."
-  type        = list(string)
-  default     = []
+  type        = string
 }
 
 variable "subnet_ids" {
