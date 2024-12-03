@@ -75,13 +75,21 @@ resource "aws_mq_broker" "this" {
   engine_type        = var.broker_type
   engine_version     = var.engine_version
   host_instance_type = var.host_instance_type
-  security_groups    = [aws_security_group.this.id]
+#   security_groups    = [aws_security_group.this.id]
   subnet_ids         = var.subnet_ids
   publicly_accessible = var.publicly_accessible
   deployment_mode    = var.deployment_mode
   storage_type       = var.storage_type
   apply_immediately  = var.apply_immediately
   auto_minor_version_upgrade = true
+
+    # Conditionally include the security_groups block
+  dynamic "security_groups" {
+    for_each = var.publicly_accessible ? [] : [aws_security_group.this.id]
+    content {
+      security_groups = security_groups.value
+    }
+  }
 
   user {
     username = var.user_username
