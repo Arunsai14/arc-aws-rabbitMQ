@@ -4,7 +4,7 @@
   broker_type       = "RabbitMQ"
   engine_version    = "3.13"
   host_instance_type = "mq.m5.large"
-  deployment_mode    = "ACTIVE_STANDBY_MULTI_AZ"
+  deployment_mode    = "CLUSTER_MULTI_AZ"
   security_group_name   = "sg-example-rabbitmq"
 #    subnet_ids        = ["subnet-6781cb49"]
   subnet_ids        = ["subnet-6781cb49", "subnet-f55c1392"]
