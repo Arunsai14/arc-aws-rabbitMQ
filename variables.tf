@@ -10,10 +10,22 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "namespace" {
+  type        = string
+  default     = "arc"
+  description = "Namespace of the project, i.e. arc"
+}
+
 variable "project_name" {
   type        = string
   default     = "sourcefuse"
   description = "Project name"
+}
+
+variable "broker_type" {
+  description = "Specify the broker type: RabbitMQ or ActiveMQ"
+  type        = string
+  default     = "RabbitMQ" 
 }
 
 variable "broker_name" {
@@ -65,11 +77,6 @@ variable "apply_immediately" {
 
 variable "user_username" {
   description = "Username for the RabbitMQ broker."
-  type        = string
-}
-
-variable "user_password" {
-  description = "Password for the RabbitMQ broker."
   type        = string
 }
 

@@ -52,9 +52,27 @@ resource "aws_security_group" "this" {
     module.terraform-aws-arc-tags.tags
   )
 }
-resource "aws_mq_broker" "rabbitmq" {
+
+######### Generate a random password #########
+resource "random_password" "rabbitmq_user_password" {
+  length           = 32
+  special          = true
+  upper            = true
+  lower            = true
+  numeric          = true
+  override_special = "!@#$%^&*()-_=+[]{}"
+}
+
+######### Store the generated password in ssm #########
+resource "aws_ssm_parameter" "rabbitmq_user_password" {
+  name  = "/rabbitmq/${var.namespace}/${var.environment}/user_password"
+  type  = "SecureString"
+  value = random_password.rabbitmq_user_password.result
+}
+
+resource "aws_mq_broker" "this" {
   broker_name        = var.broker_name
-  engine_type        = "RabbitMQ"
+  engine_type        = var.broker_type
   engine_version     = var.engine_version
   host_instance_type = var.host_instance_type
   security_groups    = [aws_security_group.this.id]
@@ -67,7 +85,7 @@ resource "aws_mq_broker" "rabbitmq" {
 
   user {
     username = var.user_username
-    password = var.user_password
+    password = aws_ssm_parameter.rabbitmq_user_password.value
   }
 
   dynamic "logs" {
