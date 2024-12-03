@@ -87,11 +87,11 @@ resource "aws_mq_broker" "this" {
     username = var.user_username
     password = aws_ssm_parameter.rabbitmq_user_password.value
   }
-   user {
-    username         = "ExampleReplicationUser"
-    password         = "Example12345"
-    replication_user = true
-  }
+#    user {
+#     username         = "ExampleReplicationUser"
+#     password         = "Example12345"
+#     replication_user = true
+#   }
 
   dynamic "logs" {
     for_each = var.enable_logging ? [1] : []
