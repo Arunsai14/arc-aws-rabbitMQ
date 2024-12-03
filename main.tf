@@ -77,7 +77,7 @@ resource "aws_mq_broker" "rabbit-mq" {
   engine_version     = var.engine_version
   host_instance_type = var.host_instance_type
   security_groups    = var.publicly_accessible ? null : [aws_security_group.this.id]
-  subnet_ids         =  var.subnet_ids
+  subnet_ids         =  var.publicly_accessible ? null : var.subnet_ids
   publicly_accessible = var.publicly_accessible
   deployment_mode    = var.deployment_mode
   storage_type       = var.storage_type
