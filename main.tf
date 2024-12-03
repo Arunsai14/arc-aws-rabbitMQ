@@ -70,38 +70,29 @@ resource "aws_ssm_parameter" "rabbitmq_user_password" {
   value = random_password.rabbitmq_user_password.result
 }
 
-resource "aws_mq_broker" "this" {
+resource "aws_mq_broker" "rabbit-mq" {
   broker_name        = var.broker_name
   engine_type        = var.broker_type
   engine_version     = var.engine_version
   host_instance_type = var.host_instance_type
-#   security_groups    = [aws_security_group.this.id]
-  subnet_ids         = var.publicly_accessible ? null : var.subnet_ids
+  security_groups    = [aws_security_group.this.id]
+  subnet_ids         =  var.subnet_ids
   publicly_accessible = var.publicly_accessible
   deployment_mode    = var.deployment_mode
   storage_type       = var.storage_type
   apply_immediately  = var.apply_immediately
   auto_minor_version_upgrade = true
 
-  
-  security_groups = var.publicly_accessible ? null : [aws_security_group.this.id]
-
 
   user {
     username = var.user_username
     password = aws_ssm_parameter.rabbitmq_user_password.value
   }
-#    user {
-#     username         = "ExampleReplicationUser"
-#     password         = "Example12345"
-#     replication_user = true
-#   }
 
   dynamic "logs" {
     for_each = var.enable_logging ? [1] : []
     content {
       general = true
-    #   audit   = true
     }
   }
 
@@ -116,7 +107,52 @@ resource "aws_mq_broker" "this" {
     time_zone   = var.maintenance_time_zone
   }
 
- tags = merge(
-    module.terraform-aws-arc-tags.tags
-  )
+ tags = var.tags
+}
+
+resource "aws_mq_broker" "active-mq" {
+  broker_name        = var.broker_name
+  engine_type        = var.broker_type
+  engine_version     = var.engine_version
+  host_instance_type = var.host_instance_type
+  security_groups    = [aws_security_group.this.id]
+  subnet_ids         = var.subnet_ids
+  publicly_accessible = var.publicly_accessible
+  deployment_mode    = var.deployment_mode
+  storage_type       = var.storage_type
+  apply_immediately  = var.apply_immediately
+  auto_minor_version_upgrade = true
+
+  
+
+  user {
+    username = var.user_username
+    password = aws_ssm_parameter.rabbitmq_user_password.value
+  }
+   user {
+    username         = "ExampleReplicationUser"
+    password         = "Example12345"
+    replication_user = true
+  }
+
+  dynamic "logs" {
+    for_each = var.enable_logging ? [1] : []
+    content {
+      general = true
+      audit   = true
+    }
+  }
+
+  encryption_options {
+    use_aws_owned_key = var.use_aws_owned_key
+    kms_key_id        = var.kms_key_id
+  }
+
+  maintenance_window_start_time {
+    day_of_week = var.maintenance_day
+    time_of_day = var.maintenance_time
+    time_zone   = var.maintenance_time_zone
+  }
+
+ tags = var.tags
 }
