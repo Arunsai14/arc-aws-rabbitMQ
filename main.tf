@@ -83,13 +83,9 @@ resource "aws_mq_broker" "this" {
   apply_immediately  = var.apply_immediately
   auto_minor_version_upgrade = true
 
-    # Conditionally include the security_groups block
-  dynamic "security_groups" {
-    for_each = var.publicly_accessible ? [] : [aws_security_group.this.id]
-    content {
-      security_groups = security_groups.value
-    }
-  }
+  
+  security_groups = var.publicly_accessible ? null : [aws_security_group.this.id]
+
 
   user {
     username = var.user_username
