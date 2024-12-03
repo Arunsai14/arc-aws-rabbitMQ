@@ -71,6 +71,7 @@ resource "aws_ssm_parameter" "rabbitmq_user_password" {
 }
 
 resource "aws_mq_broker" "rabbit-mq" {
+  count              = var.broker_type == "RabbitMQ" ? 1 : 0
   broker_name        = var.broker_name
   engine_type        = var.broker_type
   engine_version     = var.engine_version
@@ -111,6 +112,7 @@ resource "aws_mq_broker" "rabbit-mq" {
 }
 
 resource "aws_mq_broker" "active-mq" {
+  count              = var.broker_type == "ActiveMQ" ? 1 : 0
   broker_name        = var.broker_name
   engine_type        = var.broker_type
   engine_version     = var.engine_version
