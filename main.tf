@@ -97,7 +97,7 @@ resource "aws_mq_broker" "this" {
     for_each = var.enable_logging ? [1] : []
     content {
       general = true
-      audit   = true
+    #   audit   = true
     }
   }
 
