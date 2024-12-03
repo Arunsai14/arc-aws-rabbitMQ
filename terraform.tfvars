@@ -4,7 +4,7 @@
   broker_type       = "ActiveMQ"
   engine_version    = "5.18"
   host_instance_type = "mq.m5.large"
-  deployment_mode    = "ACTIVE_STANDBY_MULTI_AZ"
+  deployment_mode    = "SINGLE_INSTANCE"
   security_group_name   = "sg-example-rabbitmq"
   subnet_ids        = ["subnet-6781cb49", "subnet-f55c1392"]
   user_username     = "exampleuser"
