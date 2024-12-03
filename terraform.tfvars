@@ -1,7 +1,7 @@
   region               = "us-east-1"
   vpc_id               = "vpc-68f96212"
   broker_name       = "example-rabbitmq"
-  broker_type       = "ActiveMQ"
+  broker_type       = "RabbitMQ"
   engine_version    = "5.18"
   host_instance_type = "mq.m5.large"
   deployment_mode    = "ACTIVE_STANDBY_MULTI_AZ"
