@@ -6,7 +6,8 @@
   host_instance_type = "mq.m5.large"
   deployment_mode    = "SINGLE_INSTANCE"
   security_group_name   = "sg-example-rabbitmq"
-  subnet_ids        = ["subnet-6781cb49", "subnet-f55c1392"]
+   subnet_ids        = ["subnet-6781cb49"]
+#   subnet_ids        = ["subnet-6781cb49", "subnet-f55c1392"]
   user_username     = "exampleuser"
   user_password     = "example@123password"
   enable_logging    = true
