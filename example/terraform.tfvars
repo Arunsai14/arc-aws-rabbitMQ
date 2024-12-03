@@ -12,7 +12,7 @@
   user_password     = "example@123password"
   enable_logging    = true
   publicly_accessible =true
-  storage_type      = "ebs"
+  storage_type      = "efs"
 
   ingress_rules = [
   {
