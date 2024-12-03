@@ -60,7 +60,7 @@ resource "random_password" "rabbitmq_user_password" {
   upper            = true
   lower            = true
   numeric          = true
-  override_special = "!@#$%^&*()-_=+[]{}"
+  override_special = "!@#$%^&*()-_+<>?"
 }
 
 ######### Store the generated password in ssm #########
