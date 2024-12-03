@@ -2,7 +2,7 @@
   vpc_id               = "vpc-68f96212"
   broker_name       = "example-rabbitmq"
   broker_type       = "RabbitMQ"
-  engine_version    = "5.18"
+  engine_version    = "3.13"
   host_instance_type = "mq.m5.large"
   deployment_mode    = "ACTIVE_STANDBY_MULTI_AZ"
   security_group_name   = "sg-example-rabbitmq"
