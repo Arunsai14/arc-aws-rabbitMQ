@@ -8,25 +8,11 @@ terraform {
     }
   }
 }
-provider "aws" {
-  region = var.region
-}
-module "terraform-aws-arc-tags" {
-  source      = "sourcefuse/arc-tags/aws"
-  version     = "1.2.5"
-  environment = var.environment
-  project     = var.project_name
 
-  extra_tags = {
-    MonoRepo     = "True"
-    MonoRepoPath = "aws rabbitMQ"
-  }
-}
-
-########### Security Group for rabbitMQ ######### 
+########### Security Group for brokerMQ ######### 
 resource "aws_security_group" "this" {
-  name        = "rabbit-sg"
-  description = "Security group for the rabbitMQ"
+  name        = var.security_group_name
+  description = "Security group for the brokerMQ"
   vpc_id      = var.vpc_id
 
   dynamic "ingress" {
@@ -65,9 +51,22 @@ resource "random_password" "rabbitmq_user_password" {
 
 ######### Store the generated password in ssm #########
 resource "aws_ssm_parameter" "rabbitmq_user_password" {
-  name  = "/rabbitmq/${var.namespace}/${var.environment}/user_password"
+  name  = "/mq/broker/${var.namespace}/${var.environment}/user_password"
   type  = "SecureString"
   value = random_password.rabbitmq_user_password.result
+}
+
+resource "aws_ssm_parameter" "replication_user_password" {
+  count              = var.broker_type == "ActiveMQ" ? 1 : 0
+  name  = "/mq/broker/${var.namespace}/${var.environment}/replication_user_password"
+  type  = "SecureString"
+  value = random_password.rabbitmq_user_password.result
+}
+
+resource "aws_ssm_parameter" "rabbitmq_user" {
+  name  = "/mq/broker/${var.namespace}/${var.environment}/user_name"
+  type  = "SecureString"
+  value = var.username
 }
 
 resource "aws_mq_broker" "rabbit-mq" {
@@ -86,7 +85,7 @@ resource "aws_mq_broker" "rabbit-mq" {
 
 
   user {
-    username = var.user_username
+    username = var.username
     password = aws_ssm_parameter.rabbitmq_user_password.value
   }
 
@@ -126,14 +125,13 @@ resource "aws_mq_broker" "active-mq" {
   auto_minor_version_upgrade = true
 
   
-
   user {
-    username = var.user_username
+    username = var.username
     password = aws_ssm_parameter.rabbitmq_user_password.value
   }
    user {
-    username         = "ExampleReplicationUser"
-    password         = "Example12345"
+    username         = var.replication_username
+    password         = aws_ssm_parameter.replication_user_password.value
     replication_user = true
   }
 

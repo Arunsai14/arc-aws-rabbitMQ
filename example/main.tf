@@ -32,11 +32,12 @@ module "mq_broker" {
   engine_version   = var.engine_version
   host_instance_type = var.host_instance_type
   subnet_ids       = var.subnet_ids
+  security_group_name = var.security_group_name
   publicly_accessible = var.publicly_accessible
   deployment_mode  = var.deployment_mode
   storage_type     = var.storage_type
   apply_immediately = var.apply_immediately
-  user_username    = var.user_username
+  username    = var.username
   enable_logging   = var.enable_logging
   use_aws_owned_key = var.use_aws_owned_key
   ingress_rules    = var.ingress_rules

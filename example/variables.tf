@@ -75,7 +75,7 @@ variable "apply_immediately" {
   default     = true
 }
 
-variable "user_username" {
+variable "username" {
   description = "Username for the RabbitMQ broker."
   type        = string
 }

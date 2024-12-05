@@ -75,8 +75,18 @@ variable "apply_immediately" {
   default     = true
 }
 
-variable "user_username" {
+variable "security_group_name" {
+  description = "The name of the security group"
+  type        = string
+}
+
+variable "username" {
   description = "Username for the RabbitMQ broker."
+  type        = string
+}
+
+variable "replication_username" {
+  description = "replication_username for the ActiveMQ broker."
   type        = string
 }
 
