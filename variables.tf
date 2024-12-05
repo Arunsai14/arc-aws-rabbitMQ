@@ -109,17 +109,19 @@ variable "users" {
   description = "List of users for the ActiveMQ broker"
   type = list(object({
     username         = optional(string)
-    password         = optional(string)
     groups           = optional(list(string), [])
-    replication_username = optional(string)
   }))
   default = []
 }
 
-# variable "replication_username" {
-#   description = "replication_username for the ActiveMQ broker."
-#   type        = string
-# }
+  variable "users_replica" {
+  description = "List of users for the ActiveMQ broker"
+  type = list(object({
+    replication_username         = optional(string)
+    groups           = optional(list(string), [])
+  }))
+  default = []
+}
 
 variable "enable_logging" {
   description = "Enable general logging for the RabbitMQ broker."

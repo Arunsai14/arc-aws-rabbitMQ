@@ -130,11 +130,12 @@ resource "aws_mq_broker" "active-mq" {
 
   }
    user {
-    username         = var.users.replication_username
+    username         = var.users_replica.replication_username
     password         = aws_ssm_parameter.replication_user_password[0].value
-    groups   = var.users.groups
+    groups   = var.users_replica.groups
     replication_user = true
   }
+
 
   dynamic "logs" {
     for_each = var.enable_logging ? [1] : []
