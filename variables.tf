@@ -111,7 +111,7 @@ variable "users" {
     username         = optional(string)
     groups           = optional(list(string), [])
   })
-  default = []
+  default = {}
 }
 
   variable "users_replica" {
@@ -120,7 +120,7 @@ variable "users" {
     replication_username         = optional(string)
     groups           = optional(list(string), [])
   })
-  default = []
+  default = {}
 }
 
 variable "enable_logging" {
