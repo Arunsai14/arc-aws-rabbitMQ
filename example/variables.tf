@@ -155,3 +155,11 @@ variable "egress_rules" {
 }
 
 
+variable "users" {
+  description = "List of users for the ActiveMQ broker"
+  type = list(object({
+    username           = string
+    groups             = optional(list(string), [])
+    replication_user   = optional(bool, false)
+  }))
+}

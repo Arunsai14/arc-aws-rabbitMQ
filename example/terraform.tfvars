@@ -37,3 +37,18 @@ egress_rules = [
     cidr_blocks = ["0.0.0.0/0"]
   }
 ]
+
+users = [
+  {
+    username         = "main_user"
+    password         = "secret_password"
+    groups           = ["dev"]
+    replication_user = false
+  },
+  {
+    username         = "replication_user"
+    password         = "replication_secret"
+    groups           = []
+    replication_user = true
+  }
+]

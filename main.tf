@@ -123,16 +123,25 @@ resource "aws_mq_broker" "active-mq" {
   auto_minor_version_upgrade = true
 
   
-  user {
-    username = var.username
-    password = aws_ssm_parameter.rabbitmq_user_password.value
-    groups   = ["dev"]
+#   user {
+#     username = var.username
+#     password = aws_ssm_parameter.rabbitmq_user_password.value
+#     groups   = ["dev"]
 
-  }
-   user {
-    username         = var.replication_username
-    password         = aws_ssm_parameter.replication_user_password[0].value
-    replication_user = true
+#   }
+#    user {
+#     username         = var.replication_username
+#     password         = aws_ssm_parameter.replication_user_password[0].value
+#     replication_user = true
+#   }
+
+  for_each = { for idx, user in var.users : idx => user }
+
+  user {
+    username         = each.value.username
+    password         = aws_ssm_parameter.rabbitmq_user_password.value
+    groups           = each.value.groups
+    replication_user = each.value.replication_user
   }
 
   dynamic "logs" {
@@ -154,20 +163,20 @@ resource "aws_mq_broker" "active-mq" {
     time_zone   = var.maintenance_time_zone
   }
 
-    dynamic "ldap_server_metadata" {
-    for_each = var.ldap_required ? [1] : []
+   dynamic "ldap_server_metadata" {
+    for_each = var.ldap_config.required ? [1] : []
     content {
-      hosts                      = var.ldap_hosts
-      role_base                  = var.ldap_role_base
-      role_name                  = var.ldap_role_name
-      role_search_matching       = var.ldap_role_search_matching
-      role_search_subtree        = var.ldap_role_search_subtree
-      service_account_password   = var.ldap_service_account_password
-      service_account_username   = var.ldap_service_account_username
-      user_base                  = var.ldap_user_base
-      user_role_name             = var.ldap_user_role_name
-      user_search_matching       = var.ldap_user_search_matching
-      user_search_subtree        = var.ldap_user_search_subtree
+      hosts                      = var.ldap_config.hosts
+      role_base                  = var.ldap_config.role_base
+      role_name                  = var.ldap_config.role_name
+      role_search_matching       = var.ldap_config.role_search_matching
+      role_search_subtree        = var.ldap_config.role_search_subtree
+      service_account_password   = var.ldap_config.service_account_password
+      service_account_username   = var.ldap_config.service_account_username
+      user_base                  = var.ldap_config.user_base
+      user_role_name             = var.ldap_config.user_role_name
+      user_search_matching       = var.ldap_config.user_search_matching
+      user_search_subtree        = var.ldap_config.user_search_subtree
     }
   }
 

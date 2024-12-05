@@ -80,15 +80,15 @@ variable "security_group_name" {
   type        = string
 }
 
-variable "username" {
-  description = "Username for the RabbitMQ broker."
-  type        = string
-}
+# variable "username" {
+#   description = "Username for the RabbitMQ broker."
+#   type        = string
+# }
 
-variable "replication_username" {
-  description = "replication_username for the ActiveMQ broker."
-  type        = string
-}
+# variable "replication_username" {
+#   description = "replication_username for the ActiveMQ broker."
+#   type        = string
+# }
 
 variable "enable_logging" {
   description = "Enable general logging for the RabbitMQ broker."
@@ -160,74 +160,43 @@ variable "tags" {
   type        = map(string)
 }
 
-variable "ldap_required" {
-  description = "Whether to configure LDAP"
-  type        = bool
-  default     = false
+variable "ldap_config" {
+  description = "Configuration for LDAP server"
+  type = object({
+    required                     = bool
+    hosts                        = list(string)
+    role_base                    = string
+    role_name                    = string
+    role_search_matching         = string
+    role_search_subtree          = bool
+    service_account_password     = string
+    service_account_username     = string
+    user_base                    = string
+    user_role_name               = string
+    user_search_matching         = string
+    user_search_subtree          = bool
+  })
+  default = {
+    required                     = false
+    hosts                        = []
+    role_base                    = ""
+    role_name                    = ""
+    role_search_matching         = ""
+    role_search_subtree          = false
+    service_account_password     = ""
+    service_account_username     = ""
+    user_base                    = ""
+    user_role_name               = ""
+    user_search_matching         = ""
+    user_search_subtree          = false
+  }
 }
 
-variable "ldap_hosts" {
-  description = "List of LDAP server hosts"
-  type        = list(string)
-  default     = []
-}
-
-variable "ldap_role_base" {
-  description = "LDAP role base"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_role_name" {
-  description = "LDAP role name"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_role_search_matching" {
-  description = "LDAP role search matching criteria"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_role_search_subtree" {
-  description = "Whether the LDAP role search is a subtree"
-  type        = bool
-  default     = false
-}
-
-variable "ldap_service_account_password" {
-  description = "LDAP service account password"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_service_account_username" {
-  description = "LDAP service account username"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_user_base" {
-  description = "LDAP user base"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_user_role_name" {
-  description = "LDAP user role name"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_user_search_matching" {
-  description = "LDAP user search matching criteria"
-  type        = string
-  default     = ""
-}
-
-variable "ldap_user_search_subtree" {
-  description = "Whether the LDAP user search is a subtree"
-  type        = bool
-  default     = false
+variable "users" {
+  description = "List of users for the ActiveMQ broker"
+  type = list(object({
+    username           = string
+    groups             = optional(list(string), [])
+    replication_user   = optional(bool, false)
+  }))
 }

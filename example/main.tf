@@ -37,8 +37,8 @@ module "mq_broker" {
   deployment_mode  = var.deployment_mode
   storage_type     = var.storage_type
   apply_immediately = var.apply_immediately
-  username    = var.username
-  replication_username = var.replication_username
+  var.users    = var.users
+#   replication_username = var.replication_username
   enable_logging   = var.enable_logging
   use_aws_owned_key = var.use_aws_owned_key
   ingress_rules    = var.ingress_rules
