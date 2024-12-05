@@ -34,9 +34,7 @@ resource "aws_security_group" "this" {
       cidr_blocks = egress.value.cidr_blocks
     }
   }
-  tags = merge(
-    module.terraform-aws-arc-tags.tags
-  )
+  tags = var.tags
 }
 
 ######### Generate a random password #########
