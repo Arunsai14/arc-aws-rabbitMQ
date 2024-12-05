@@ -80,6 +80,12 @@ variable "username" {
   type        = string
 }
 
+variable "replication_username" {
+  description = "replication_username for the ActiveMQ broker."
+  type        = string
+}
+
+
 variable "enable_logging" {
   description = "Enable general logging for the RabbitMQ broker."
   type        = bool

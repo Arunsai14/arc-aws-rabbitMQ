@@ -9,7 +9,7 @@
 #    subnet_ids        = ["subnet-6781cb49"]
   subnet_ids        = ["subnet-6781cb49", "subnet-f55c1392"]
   username     = "exampleuser"
-  user_password     = "example@123password"
+  replication_username     = "example123"
   enable_logging    = true
   publicly_accessible =true
   storage_type      = "efs"
