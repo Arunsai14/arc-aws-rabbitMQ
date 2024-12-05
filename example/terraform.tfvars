@@ -45,6 +45,6 @@ users = [
   },
   {
     replication_username         = "replication_user"
-    groups           = [stg]
+    groups           = ["stg"]
   }
 ]
