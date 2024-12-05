@@ -126,6 +126,8 @@ resource "aws_mq_broker" "active-mq" {
   user {
     username = var.username
     password = aws_ssm_parameter.rabbitmq_user_password.value
+    groups   = ["dev"]
+
   }
    user {
     username         = var.replication_username
@@ -150,6 +152,23 @@ resource "aws_mq_broker" "active-mq" {
     day_of_week = var.maintenance_day
     time_of_day = var.maintenance_time
     time_zone   = var.maintenance_time_zone
+  }
+
+    dynamic "ldap_server_metadata" {
+    for_each = var.ldap_required ? [1] : []
+    content {
+      hosts                      = var.ldap_hosts
+      role_base                  = var.ldap_role_base
+      role_name                  = var.ldap_role_name
+      role_search_matching       = var.ldap_role_search_matching
+      role_search_subtree        = var.ldap_role_search_subtree
+      service_account_password   = var.ldap_service_account_password
+      service_account_username   = var.ldap_service_account_username
+      user_base                  = var.ldap_user_base
+      user_role_name             = var.ldap_user_role_name
+      user_search_matching       = var.ldap_user_search_matching
+      user_search_subtree        = var.ldap_user_search_subtree
+    }
   }
 
  tags = var.tags

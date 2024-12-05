@@ -159,3 +159,75 @@ variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)
 }
+
+variable "ldap_required" {
+  description = "Whether to configure LDAP"
+  type        = bool
+  default     = false
+}
+
+variable "ldap_hosts" {
+  description = "List of LDAP server hosts"
+  type        = list(string)
+  default     = []
+}
+
+variable "ldap_role_base" {
+  description = "LDAP role base"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_role_name" {
+  description = "LDAP role name"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_role_search_matching" {
+  description = "LDAP role search matching criteria"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_role_search_subtree" {
+  description = "Whether the LDAP role search is a subtree"
+  type        = bool
+  default     = false
+}
+
+variable "ldap_service_account_password" {
+  description = "LDAP service account password"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_service_account_username" {
+  description = "LDAP service account username"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_user_base" {
+  description = "LDAP user base"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_user_role_name" {
+  description = "LDAP user role name"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_user_search_matching" {
+  description = "LDAP user search matching criteria"
+  type        = string
+  default     = ""
+}
+
+variable "ldap_user_search_subtree" {
+  description = "Whether the LDAP user search is a subtree"
+  type        = bool
+  default     = false
+}
