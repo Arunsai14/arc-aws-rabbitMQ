@@ -107,19 +107,19 @@ variable "security_group_name" {
 
 variable "users" {
   description = "List of users for the ActiveMQ broker"
-  type = list(object({
+  type = object({
     username         = optional(string)
     groups           = optional(list(string), [])
-  }))
+  })
   default = []
 }
 
   variable "users_replica" {
   description = "List of users for the ActiveMQ broker"
-  type = list(object({
+  type = object({
     replication_username         = optional(string)
     groups           = optional(list(string), [])
-  }))
+  })
   default = []
 }
 

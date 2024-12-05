@@ -64,7 +64,7 @@ resource "aws_ssm_parameter" "replication_user_password" {
 resource "aws_ssm_parameter" "rabbitmq_user" {
   name  = "/mq/broker/${var.namespace}/${var.environment}/user_name"
   type  = "SecureString"
-  value = var.username
+  value = var.users.username
 }
 
 resource "aws_mq_broker" "rabbit-mq" {
@@ -83,10 +83,11 @@ resource "aws_mq_broker" "rabbit-mq" {
 
 
   user {
-    username = var.username
+    username = var.users.username
     password = aws_ssm_parameter.rabbitmq_user_password.value
-  }
+    groups   = var.users.groups
 
+  }
   dynamic "logs" {
     for_each = var.enable_logging ? [1] : []
     content {
