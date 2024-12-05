@@ -41,14 +41,10 @@ egress_rules = [
 users = [
   {
     username         = "main_user"
-    password         = "secret_password"
     groups           = ["dev"]
-    replication_user = false
   },
   {
-    username         = "replication_user"
-    password         = "replication_secret"
-    groups           = []
-    replication_user = true
+    replication_username         = "replication_user"
+    groups           = [stg]
   }
 ]

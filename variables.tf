@@ -84,6 +84,37 @@ variable "security_group_name" {
 #   description = "Username for the RabbitMQ broker."
 #   type        = string
 # }
+# variable "group" {
+#   description = "Username for the RabbitMQ broker."
+#   type        = string
+# }
+
+# variable "user" {
+#   description = "User configuration for the RabbitMQ and activeMQ broker."
+#   type = object({
+#     username = string
+#     groups           = optional(list(string), [])
+#   })
+# }
+
+# variable "user" {
+#   description = "User configuration for the RabbitMQ and activeMQ broker."
+#   type = object({
+#     replication_username = string
+#     groups           = optional(list(string), [])
+#   })
+# }
+
+variable "users" {
+  description = "List of users for the ActiveMQ broker"
+  type = list(object({
+    username         = optional(string)
+    password         = optional(string)
+    groups           = optional(list(string), [])
+    replication_username = optional(string)
+  }))
+  default = []
+}
 
 # variable "replication_username" {
 #   description = "replication_username for the ActiveMQ broker."
@@ -196,6 +227,7 @@ variable "users" {
   description = "List of users for the ActiveMQ broker"
   type = list(object({
     username           = string
+    password           = string
     groups             = optional(list(string), [])
     replication_user   = optional(bool, false)
   }))
