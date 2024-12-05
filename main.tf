@@ -129,7 +129,7 @@ resource "aws_mq_broker" "active-mq" {
   }
    user {
     username         = var.replication_username
-    password         = aws_ssm_parameter.replication_user_password.value
+    password         = aws_ssm_parameter.replication_user_password[0].value
     replication_user = true
   }
 
