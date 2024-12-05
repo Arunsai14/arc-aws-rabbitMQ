@@ -39,7 +39,6 @@ module "mq_broker" {
   apply_immediately = var.apply_immediately
   users    = var.users
   users_replica = var.users_replica
-#   replication_username = var.replication_username
   enable_logging   = var.enable_logging
   use_aws_owned_key = var.use_aws_owned_key
   ingress_rules    = var.ingress_rules
