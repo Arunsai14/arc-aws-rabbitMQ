@@ -38,14 +38,13 @@ egress_rules = [
   }
 ]
 
-users = [
+users = 
   {
     username         = "main_user"
     groups           = ["dev"]
-  }]
-users_replica = [
+  }
+users_replica = 
   {
     replication_username         = "replication_user"
     groups           = ["stg"]
   }
-]
