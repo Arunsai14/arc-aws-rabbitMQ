@@ -108,40 +108,104 @@ resource "aws_mq_broker" "rabbit-mq" {
  tags = var.tags
 }
 
-resource "aws_mq_broker" "active-mq" {
-  count              = var.broker_type == "ActiveMQ" ? 1 : 0
-  broker_name        = var.broker_name
-  engine_type        = var.broker_type
-  engine_version     = var.engine_version
-  host_instance_type = var.host_instance_type
-  security_groups    = [aws_security_group.this.id]
-  subnet_ids         = var.subnet_ids
-  publicly_accessible = var.publicly_accessible
-  deployment_mode    = var.deployment_mode
-  storage_type       = var.storage_type
-  apply_immediately  = var.apply_immediately
-  auto_minor_version_upgrade = true
+# resource "aws_mq_broker" "active-mq" {
+#   count              = var.broker_type == "ActiveMQ" ? 1 : 0
+#   broker_name        = var.broker_name
+#   engine_type        = var.broker_type
+#   engine_version     = var.engine_version
+#   host_instance_type = var.host_instance_type
+#   security_groups    = [aws_security_group.this.id]
+#   subnet_ids         = var.subnet_ids
+#   publicly_accessible = var.publicly_accessible
+#   deployment_mode    = var.deployment_mode
+#   storage_type       = var.storage_type
+#   apply_immediately  = var.apply_immediately
+#   auto_minor_version_upgrade = true
 
   
+# #   user {
+# #     username = var.username
+# #     password = aws_ssm_parameter.rabbitmq_user_password.value
+# #     groups   = ["dev"]
+
+# #   }
+# #    user {
+# #     username         = var.replication_username
+# #     password         = aws_ssm_parameter.replication_user_password[0].value
+# #     replication_user = true
+# #   }
+
+#   for_each = { for idx, user in var.users : idx => user }
+
 #   user {
-#     username = var.username
-#     password = aws_ssm_parameter.rabbitmq_user_password.value
-#     groups   = ["dev"]
-
-#   }
-#    user {
-#     username         = var.replication_username
-#     password         = aws_ssm_parameter.replication_user_password[0].value
-#     replication_user = true
+#     username         = each.value.username
+#     password         = aws_ssm_parameter.rabbitmq_user_password.value
+#     groups           = each.value.groups
+#     replication_user = each.value.replication_user
 #   }
 
-  for_each = { for idx, user in var.users : idx => user }
+#   dynamic "logs" {
+#     for_each = var.enable_logging ? [1] : []
+#     content {
+#       general = true
+#       audit   = true
+#     }
+#   }
 
-  user {
-    username         = each.value.username
-    password         = aws_ssm_parameter.rabbitmq_user_password.value
-    groups           = each.value.groups
-    replication_user = each.value.replication_user
+#   encryption_options {
+#     use_aws_owned_key = var.use_aws_owned_key
+#     kms_key_id        = var.kms_key_id
+#   }
+
+#   maintenance_window_start_time {
+#     day_of_week = var.maintenance_day
+#     time_of_day = var.maintenance_time
+#     time_zone   = var.maintenance_time_zone
+#   }
+
+#    dynamic "ldap_server_metadata" {
+#     for_each = var.ldap_config.required ? [1] : []
+#     content {
+#       hosts                      = var.ldap_config.hosts
+#       role_base                  = var.ldap_config.role_base
+#       role_name                  = var.ldap_config.role_name
+#       role_search_matching       = var.ldap_config.role_search_matching
+#       role_search_subtree        = var.ldap_config.role_search_subtree
+#       service_account_password   = var.ldap_config.service_account_password
+#       service_account_username   = var.ldap_config.service_account_username
+#       user_base                  = var.ldap_config.user_base
+#       user_role_name             = var.ldap_config.user_role_name
+#       user_search_matching       = var.ldap_config.user_search_matching
+#       user_search_subtree        = var.ldap_config.user_search_subtree
+#     }
+#   }
+
+#  tags = var.tags
+# }
+
+resource "aws_mq_broker" "active-mq" {
+  for_each               = var.broker_type == "ActiveMQ" ? { "active-mq" = 1 } : {}
+
+  broker_name            = var.broker_name
+  engine_type            = var.broker_type
+  engine_version         = var.engine_version
+  host_instance_type     = var.host_instance_type
+  security_groups        = [aws_security_group.this.id]
+  subnet_ids             = var.subnet_ids
+  publicly_accessible    = var.publicly_accessible
+  deployment_mode        = var.deployment_mode
+  storage_type           = var.storage_type
+  apply_immediately      = var.apply_immediately
+  auto_minor_version_upgrade = true
+
+  dynamic "user" {
+    for_each = var.users
+    content {
+      username         = each.value.username
+      password         = each.value.password
+      groups           = each.value.groups
+      replication_user = each.value.replication_user
+    }
   }
 
   dynamic "logs" {
@@ -163,7 +227,7 @@ resource "aws_mq_broker" "active-mq" {
     time_zone   = var.maintenance_time_zone
   }
 
-   dynamic "ldap_server_metadata" {
+  dynamic "ldap_server_metadata" {
     for_each = var.ldap_config.required ? [1] : []
     content {
       hosts                      = var.ldap_config.hosts
@@ -180,5 +244,5 @@ resource "aws_mq_broker" "active-mq" {
     }
   }
 
- tags = var.tags
+  tags = var.tags
 }
