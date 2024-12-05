@@ -85,6 +85,10 @@ variable "replication_username" {
   type        = string
 }
 
+variable "security_group_name" {
+  description = "The name of the security group"
+  type        = string
+}
 
 variable "enable_logging" {
   description = "Enable general logging for the RabbitMQ broker."
