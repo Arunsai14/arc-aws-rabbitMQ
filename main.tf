@@ -48,7 +48,7 @@ resource "random_password" "rabbitmq_user_password" {
 }
 
 ######### Store the generated password in ssm #########
-resource "aws_ssm_parameter" "rabbitmq_user_password" {
+resource "aws_ssm_parameter" "user_password" {
   name  = "/mq/broker/${var.namespace}/${var.environment}/user_password"
   type  = "SecureString"
   value = random_password.rabbitmq_user_password.result
@@ -61,11 +61,22 @@ resource "aws_ssm_parameter" "replication_user_password" {
   value = random_password.rabbitmq_user_password.result
 }
 
-resource "aws_ssm_parameter" "rabbitmq_user" {
+resource "aws_ssm_parameter" "user_name" {
   name  = "/mq/broker/${var.namespace}/${var.environment}/user_name"
   type  = "SecureString"
   value = var.users.username
 }
+
+resource "aws_ssm_parameter" "replication_user" {
+  count              = var.broker_type == "ActiveMQ" ? 1 : 0
+  name  = "/mq/broker/${var.namespace}/${var.environment}/replication_user_name"
+  type  = "SecureString"
+  value = var.users.username
+}
+
+########################################################################
+#############################  RabiitMQ   ##############################
+########################################################################
 
 resource "aws_mq_broker" "rabbit-mq" {
   count              = var.broker_type == "RabbitMQ" ? 1 : 0
@@ -79,7 +90,7 @@ resource "aws_mq_broker" "rabbit-mq" {
   deployment_mode    = var.deployment_mode
   storage_type       = var.storage_type
   apply_immediately  = var.apply_immediately
-  auto_minor_version_upgrade = true
+  auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
 
   user {
@@ -95,19 +106,23 @@ resource "aws_mq_broker" "rabbit-mq" {
     }
   }
 
-  encryption_options {
-    use_aws_owned_key = var.use_aws_owned_key
-    kms_key_id        = var.kms_key_id
-  }
+encryption_options {
+  use_aws_owned_key = var.encryption_options.use_aws_owned_key
+  kms_key_id        = var.encryption_options.kms_key_id
+}
 
-  maintenance_window_start_time {
-    day_of_week = var.maintenance_day
-    time_of_day = var.maintenance_time
-    time_zone   = var.maintenance_time_zone
-  }
+maintenance_window_start_time {
+  day_of_week = var.maintenance_window.day_of_week
+  time_of_day = var.maintenance_window.time_of_day
+  time_zone   = var.maintenance_window.time_zone
+}
 
  tags = var.tags
 }
+
+########################################################################
+########################  Apache ActiveMQ   ############################
+########################################################################
 
 resource "aws_mq_broker" "active-mq" {
   count              = var.broker_type == "ActiveMQ" ? 1 : 0
@@ -121,7 +136,7 @@ resource "aws_mq_broker" "active-mq" {
   deployment_mode    = var.deployment_mode
   storage_type       = var.storage_type
   apply_immediately  = var.apply_immediately
-  auto_minor_version_upgrade = true
+  auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
   
   user {
@@ -146,16 +161,16 @@ resource "aws_mq_broker" "active-mq" {
     }
   }
 
-  encryption_options {
-    use_aws_owned_key = var.use_aws_owned_key
-    kms_key_id        = var.kms_key_id
-  }
+encryption_options {
+  use_aws_owned_key = var.encryption_options.use_aws_owned_key
+  kms_key_id        = var.encryption_options.kms_key_id
+}
 
-  maintenance_window_start_time {
-    day_of_week = var.maintenance_day
-    time_of_day = var.maintenance_time
-    time_zone   = var.maintenance_time_zone
-  }
+maintenance_window_start_time {
+  day_of_week = var.maintenance_window.day_of_week
+  time_of_day = var.maintenance_window.time_of_day
+  time_zone   = var.maintenance_window.time_zone
+}
 
    dynamic "ldap_server_metadata" {
     for_each = var.ldap_config.required ? [1] : []

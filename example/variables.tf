@@ -75,16 +75,6 @@ variable "apply_immediately" {
   default     = true
 }
 
-variable "username" {
-  description = "Username for the RabbitMQ broker."
-  type        = string
-}
-
-variable "replication_username" {
-  description = "replication_username for the ActiveMQ broker."
-  type        = string
-}
-
 variable "security_group_name" {
   description = "The name of the security group"
   type        = string
@@ -96,34 +86,36 @@ variable "enable_logging" {
   default     = false
 }
 
-variable "use_aws_owned_key" {
-  description = "Use AWS-owned KMS CMK for encryption."
+variable "auto_minor_version_upgrade" {
+  description = "Indicates whether minor engine upgrades are applied automatically to the instance during the maintenance window."
   type        = bool
   default     = true
 }
 
-variable "kms_key_id" {
-  description = "KMS key ID for encryption (if use_aws_owned_key is false)."
-  type        = string
-  default     = null
+variable "encryption_options" {
+  description = "Encryption options for the resource."
+  type = object({
+    use_aws_owned_key = bool
+    kms_key_id        = string
+  })
+  default = {
+    use_aws_owned_key = true
+    kms_key_id        = null
+  }
 }
 
-variable "maintenance_day" {
-  description = "Day of the week for maintenance."
-  type        = string
-  default     = "MONDAY"
-}
-
-variable "maintenance_time" {
-  description = "Time of day for maintenance in 24-hour format."
-  type        = string
-  default     = "02:00"
-}
-
-variable "maintenance_time_zone" {
-  description = "Time zone for maintenance."
-  type        = string
-  default     = "UTC"
+variable "maintenance_window" {
+  description = "Maintenance window configuration including day, time, and time zone."
+  type = object({
+    day_of_week = string
+    time_of_day = string
+    time_zone   = string
+  })
+  default = {
+    day_of_week = "MONDAY"
+    time_of_day = "02:00"
+    time_zone   = "UTC"
+  }
 }
 
 variable "vpc_id" {

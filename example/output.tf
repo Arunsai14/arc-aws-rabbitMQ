@@ -17,10 +17,10 @@ output "replication_user_password_ssm_parameter" {
   value       = module.mq_broker.replication_user_password_ssm_parameter
 }
 
-# output "rabbitmq_broker_id" {
-#   description = "The ID of the RabbitMQ broker (if broker_type is RabbitMQ)."
-#   value       = module.mq_broker.rabbitmq_broker_id
-# }
+output "rabbitmq_broker_id" {
+  description = "The ID of the RabbitMQ broker (if broker_type is RabbitMQ)."
+  value       = module.mq_broker.rabbitmq_broker_id
+}
 output "activemq_broker_id" {
   description = "The ID of the ActiveMQ broker (if broker_type is ActiveMQ)."
   value       = module.mq_broker.activemq_broker_id
