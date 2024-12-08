@@ -95,7 +95,7 @@ resource "aws_mq_broker" "rabbit-mq" {
 
   user {
     username = var.users.username
-    password = aws_ssm_parameter.rabbitmq_user_password.value
+    password = aws_ssm_parameter.user_password.value
     groups   = var.users.groups
 
   }
@@ -141,7 +141,7 @@ resource "aws_mq_broker" "active-mq" {
   
   user {
     username = var.users.username
-    password = aws_ssm_parameter.rabbitmq_user_password.value
+    password = aws_ssm_parameter.user_password.value
     groups   = var.users.groups
 
   }

@@ -3,14 +3,14 @@ output "security_group_id" {
   value       = aws_security_group.this.id
 }
 
-output "rabbitmq_user_password_ssm_parameter" {
-  description = "The SSM parameter storing the RabbitMQ user password."
-  value       = aws_ssm_parameter.rabbitmq_user_password.name
+output "broker_mq_user_password_ssm_parameter" {
+  description = "The SSM parameter storing the brokerMQ user password."
+  value       = aws_ssm_parameter.user_password.name
 }
 
-output "rabbitmq_user_ssm_parameter" {
-  description = "The SSM parameter storing the RabbitMQ username."
-  value       = aws_ssm_parameter.rabbitmq_user.name
+output "broker_mq_user_ssm_parameter" {
+  description = "The SSM parameter storing the brokerMQ username."
+  value       = aws_ssm_parameter.user.name
 }
 
 output "replication_user_password_ssm_parameter" {
