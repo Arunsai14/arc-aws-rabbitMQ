@@ -40,7 +40,6 @@ module "mq_broker" {
   users    = var.users
   users_replica = var.users_replica
   enable_logging   = var.enable_logging
-  use_aws_owned_key = var.use_aws_owned_key
   ingress_rules    = var.ingress_rules
   egress_rules     = var.egress_rules
   tags             = merge(
