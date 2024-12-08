@@ -10,7 +10,7 @@ output "broker_mq_user_password_ssm_parameter" {
 
 output "broker_mq_user_ssm_parameter" {
   description = "The SSM parameter storing the brokerMQ username."
-  value       = aws_ssm_parameter.user.name
+  value       = aws_ssm_parameter.user_name.name
 }
 
 output "replication_user_password_ssm_parameter" {

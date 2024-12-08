@@ -4,12 +4,12 @@ output "security_group_id" {
 }
 output "rabbitmq_user_password_ssm_parameter" {
   description = "The SSM parameter name storing the RabbitMQ user password."
-  value       = module.mq_broker.user_password_ssm_parameter
+  value       = module.mq_broker.broker_mq_user_password_ssm_parameter
 }
 
 output "rabbitmq_user_ssm_parameter" {
   description = "The SSM parameter name storing the RabbitMQ username."
-  value       = module.mq_broker.user_ssm_parameter
+  value       = module.mq_broker.broker_mq_user_ssm_parameter
 }
 
 output "replication_user_password_ssm_parameter" {
