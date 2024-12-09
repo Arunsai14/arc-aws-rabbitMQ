@@ -209,8 +209,8 @@ variable "enable_data_replication" {
   default     = false
 }
 
-# variable "data_replication_primary_broker_arn" {
-#   description = "The ARN of the primary broker for data replication"
-#   type        = string
-#   default     = ""
-# }
+variable "data_replication_primary_broker_arn" {
+  description = "The ARN of the primary broker for data replication"
+  type        = string
+  default     = ""
+}

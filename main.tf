@@ -162,7 +162,7 @@ resource "aws_mq_broker" "active-mq" {
   }
 
   data_replication_mode               = var.enable_data_replication ? "CRDR" : null
-  data_replication_primary_broker_arn = var.enable_data_replication ? aws_mq_broker.primary.arn : null
+  data_replication_primary_broker_arn = var.enable_data_replication ? var.data_replication_primary_broker_arn : null
 
 encryption_options {
   use_aws_owned_key = var.encryption_options.use_aws_owned_key
