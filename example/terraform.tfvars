@@ -1,8 +1,8 @@
   region               = "us-east-1"
   vpc_id               = "vpc-68f96212"
   broker_name       = "example-rabbitmq"
-  broker_type       = "ActiveMQ"
-  engine_version    = "5.18"
+  # broker_type       = "ActiveMQ"
+  engine_version    = "3.13"
   host_instance_type = "mq.m5.large"
   # deployment_mode    = "ACTIVE_STANDBY_MULTI_AZ"
   security_group_name   = "example-rabbitmq"
@@ -12,7 +12,7 @@
   replication_username     = "example123"
   enable_logging    = true
   publicly_accessible =false
-  storage_type      = "efs"
+  # storage_type      = "efs"
 
   ingress_rules = [
   {
