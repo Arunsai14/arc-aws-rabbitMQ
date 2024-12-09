@@ -164,3 +164,9 @@ variable "users" {
   })
   default = {}
 }
+
+variable "enable_data_replication" {
+  description = "Enable or disable data replication for the broker"
+  type        = bool
+  default     = false
+}

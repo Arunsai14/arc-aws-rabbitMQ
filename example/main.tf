@@ -61,7 +61,8 @@ module "rabbit_mq" {
   storage_type     = var.storage_type
   apply_immediately = var.apply_immediately
   users    = var.users
-  # users_replica = var.users_replica
+  users_replica = var.users_replica
+enable_data_replication = var.enable_data_replication
   enable_logging   = var.enable_logging
   ingress_rules    = var.ingress_rules
   egress_rules     = var.egress_rules

@@ -161,6 +161,14 @@ resource "aws_mq_broker" "active-mq" {
     }
   }
 
+  dynamic "data_replication" {
+    for_each = var.enable_data_replication ? [1] : []
+    content {
+      data_replication_mode               = "CRDR"
+      data_replication_primary_broker_arn = var.data_replication_primary_broker_arn
+    }
+  }
+
 encryption_options {
   use_aws_owned_key = var.encryption_options.use_aws_owned_key
   kms_key_id        = var.encryption_options.kms_key_id

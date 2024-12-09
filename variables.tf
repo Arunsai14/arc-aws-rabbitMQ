@@ -202,3 +202,15 @@ variable "ldap_config" {
     user_search_subtree          = false
   }
 }
+
+variable "enable_data_replication" {
+  description = "Enable or disable data replication for the broker"
+  type        = bool
+  default     = false
+}
+
+variable "data_replication_primary_broker_arn" {
+  description = "The ARN of the primary broker for data replication"
+  type        = string
+  default     = ""
+}
