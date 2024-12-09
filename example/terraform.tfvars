@@ -11,7 +11,7 @@
   username     = "exampleuser"
   replication_username     = "example123"
   enable_logging    = true
-  publicly_accessible =true
+  publicly_accessible =false
   storage_type      = "efs"
 
   ingress_rules = [
