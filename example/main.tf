@@ -56,7 +56,6 @@ module "rabbit_mq" {
   host_instance_type = var.host_instance_type
   vpc_id           = var.vpc_id
   subnet_ids       = var.subnet_ids
-  security_group_name = var.security_group_name
   publicly_accessible = var.publicly_accessible
   deployment_mode  = var.deployment_mode
   storage_type     = var.storage_type

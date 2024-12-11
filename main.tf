@@ -10,7 +10,7 @@ terraform {
 }
 
 module "arc_security_group" {
-  source  = "sourcefuse/arc-security-group/aws"
+  source  = "git::git@github.com:sourcefuse/terraform-aws-arc-security-group.git"
   version = "0.0.1"
 
   name          = "${var.namespace}-${var.environment}-sg"
