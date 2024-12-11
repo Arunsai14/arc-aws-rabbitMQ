@@ -1,6 +1,6 @@
 output "security_group_id" {
   description = "The ID of the created security group for brokerMQ."
-  value       = aws_security_group.this.id
+  value       = module.arc_security_group.id
 }
 
 output "broker_mq_user_password_ssm_parameter" {

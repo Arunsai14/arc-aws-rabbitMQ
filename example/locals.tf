@@ -6,7 +6,7 @@ locals {
     ingress_rules = [
       {
         description = "Allow VPC traffic"
-        cidr_block  = ["0.0.0.0/0"]
+        cidr_block  = "0.0.0.0/0"
         from_port   = 0
         ip_protocol = "tcp"
         to_port     = 65535
@@ -20,7 +20,7 @@ locals {
       },
       {
         description              = "Allow traffic from security group"
-        source_security_group_id = ["0.0.0.0/0"]
+        source_security_group_id = "0.0.0.0/0"
         from_port                = 0
         ip_protocol              = "tcp"
         to_port                  = 65535
