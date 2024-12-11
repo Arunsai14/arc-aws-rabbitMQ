@@ -54,6 +54,7 @@ module "rabbit_mq" {
   broker_type      = var.broker_type
   engine_version   = var.engine_version
   host_instance_type = var.host_instance_type
+  vpc_id           = var.vpc_id
   subnet_ids       = var.subnet_ids
   security_group_name = var.security_group_name
   publicly_accessible = var.publicly_accessible
@@ -64,8 +65,8 @@ module "rabbit_mq" {
   users_replica = var.users_replica
 enable_data_replication = var.enable_data_replication
   enable_logging   = var.enable_logging
-  ingress_rules    = var.ingress_rules
-  egress_rules     = var.egress_rules
+  ingress_rules = local.security_group_data.ingress_rules
+  egress_rules  = local.security_group_data.egress_rules
   tags             = merge(
     module.terraform-aws-arc-tags.tags
   )

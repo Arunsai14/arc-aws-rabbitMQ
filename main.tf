@@ -9,31 +9,15 @@ terraform {
   }
 }
 
-########### Security Group for brokerMQ ######### 
-resource "aws_security_group" "this" {
-  name        = var.security_group_name
-  description = "Security group for the brokerMQ"
-  vpc_id      = var.vpc_id
+module "arc_security_group" {
+  source  = "sourcefuse/arc-security-group/aws"
+  version = "0.0.1"
 
-  dynamic "ingress" {
-    for_each = var.ingress_rules
-    content {
-      from_port   = ingress.value.from_port
-      to_port     = ingress.value.to_port
-      protocol    = ingress.value.protocol
-      cidr_blocks = ingress.value.cidr_blocks
-    }
-  }
+  name          = "${var.namespace}-${var.environment}-sg"
+  vpc_id        = var.vpc_id
+  ingress_rules = var.ingress_rules
+  egress_rules  = var.egress_rules
 
-  dynamic "egress" {
-    for_each = var.egress_rules
-    content {
-      from_port   = egress.value.from_port
-      to_port     = egress.value.to_port
-      protocol    = egress.value.protocol
-      cidr_blocks = egress.value.cidr_blocks
-    }
-  }
   tags = var.tags
 }
 
@@ -84,7 +68,7 @@ resource "aws_mq_broker" "rabbit-mq" {
   engine_type        = var.broker_type
   engine_version     = var.engine_version
   host_instance_type = var.host_instance_type
-  security_groups    = var.publicly_accessible ? null : [aws_security_group.this.id]
+  security_groups    = var.publicly_accessible ? null : [module.arc_security_group.id]
   subnet_ids         =  var.publicly_accessible ? null : var.subnet_ids
   publicly_accessible = var.publicly_accessible
   deployment_mode    = var.deployment_mode
@@ -130,7 +114,7 @@ resource "aws_mq_broker" "active-mq" {
   engine_type        = var.broker_type
   engine_version     = var.engine_version
   host_instance_type = var.host_instance_type
-  security_groups    = [aws_security_group.this.id]
+  security_groups    = [module.arc_security_group.id]
   subnet_ids         = var.subnet_ids
   publicly_accessible = var.publicly_accessible
   deployment_mode    = var.deployment_mode

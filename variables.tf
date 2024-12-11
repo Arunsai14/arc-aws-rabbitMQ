@@ -144,27 +144,32 @@ variable "vpc_id" {
 }
 
 variable "ingress_rules" {
-  description = "A list of ingress rules for the security group."
+  description = "(optional) List of ingress rules for the security group."
   type = list(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
+    description              = optional(string, null)
+    cidr_block               = optional(string, null)
+    source_security_group_id = optional(string, null)
+    from_port                = number
+    ip_protocol              = string
+    to_port                  = string
+    self                     = optional(bool, false)
   }))
-  default     = []
+  default = []
 }
 
 variable "egress_rules" {
-  description = "A list of egress rules for the security group."
+  description = "(optional) List of egress rules for the security group."
   type = list(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
+    description                   = optional(string, null)
+    cidr_block                    = optional(string, null)
+    destination_security_group_id = optional(string, null)
+    from_port                     = number
+    ip_protocol                   = string
+    to_port                       = string
+    prefix_list_id                = optional(string, null)
   }))
-  default     = []
+  default = []
 }
-
 
 variable "tags" {
   description = "Tags to apply to resources"
