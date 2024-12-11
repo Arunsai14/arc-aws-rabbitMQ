@@ -16,6 +16,19 @@ variable "namespace" {
   description = "Namespace of the project, i.e. arc"
 }
 
+variable "subnet_names" {
+  type        = list(string)
+  description = "List of subnet names to lookup"
+  default     = ["arc-poc-private-subnet-private-us-east-1a", "arc-poc-private-subnet-private-us-east-1b"]
+}
+
+variable "vpc_name" {
+  type        = string
+  description = "Name of the VPC to add the resources"
+  default     = "arc-poc-vpc"
+}
+
+
 variable "project_name" {
   type        = string
   default     = "sourcefuse"
@@ -45,11 +58,11 @@ variable "host_instance_type" {
   default     = "mq.t3.micro"
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs for the RabbitMQ broker."
-  type        = list(string)
-  default     = []
-}
+# variable "subnet_ids" {
+#   description = "List of subnet IDs for the RabbitMQ broker."
+#   type        = list(string)
+#   default     = []
+# }
 
 variable "publicly_accessible" {
   description = "Whether the RabbitMQ broker is publicly accessible."
@@ -118,11 +131,11 @@ variable "maintenance_window" {
   }
 }
 
-variable "vpc_id" {
-  description = "The VPC ID for the VPC endpoint."
-  type        = string
-  default   = null
-}
+# variable "vpc_id" {
+#   description = "The VPC ID for the VPC endpoint."
+#   type        = string
+#   default   = null
+# }
 
 
 variable "users" {
