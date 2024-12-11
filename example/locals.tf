@@ -6,7 +6,7 @@ locals {
     ingress_rules = [
       {
         description = "Allow VPC traffic"
-        cidr_block  = data.aws_vpc.this.cidr_block
+        cidr_block  = data.aws_vpc.default.cidr_block
         from_port   = 0
         ip_protocol = "tcp"
         to_port     = 65535
