@@ -11,7 +11,6 @@ terraform {
 
 module "arc_security_group" {
   source  = "git::git@github.com:sourcefuse/terraform-aws-arc-security-group.git"
-  version = "0.0.1"
 
   name          = "${var.namespace}-${var.environment}-sg"
   vpc_id        = var.vpc_id
